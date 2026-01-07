@@ -1,0 +1,11 @@
+{
+  "tokenizer": { "vocab": "configs/vocab.json", "merges": "configs/merges.txt" },
+  "model": { "dModel": 384, "encoderLayers": 3, "nHeads": 6 },
+  "training": { "lr": 0.0003, "batchSize": 64, "epochs": 10 },
+  "paths": {
+    "dataRaw": "data/raw",
+    "dataClean": "data/clean",
+    "dataSplits": "data/splits",
+    "logs": "logs"
+  }
+}

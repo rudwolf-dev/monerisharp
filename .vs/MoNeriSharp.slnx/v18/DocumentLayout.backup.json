@@ -1,0 +1,181 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "R:\\source\\ia\\MoNeriSharp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\training\\languagetrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\training\\languagetrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\data\\dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\data\\dataloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\training\\emotiontrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\training\\emotiontrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\modules\\emotionclasifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\modules\\emotionclasifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\modules\\languageclassifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\modules\\languageclassifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\configs\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\configs\\default.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\utils\\tokenizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\utils\\tokenizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\monerisharp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\monerisharp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EmotionTrainer.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\EmotionTrainer.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\training\\EmotionTrainer.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\EmotionTrainer.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\training\\EmotionTrainer.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:51:03.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EmotionClasifier.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\EmotionClasifier.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\modules\\EmotionClasifier.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\EmotionClasifier.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\modules\\EmotionClasifier.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:50:02.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Tokenizador.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\Tokenizador.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\utils\\Tokenizador.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\Tokenizador.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\utils\\Tokenizador.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:37:55.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MoNeriSharp",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
+              "RelativeDocumentMoniker": "MoNeriSharp\\MoNeriSharp.csproj",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
+              "RelativeToolTip": "MoNeriSharp\\MoNeriSharp.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-01-07T19:18:23.261Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LanguageTrainer.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\LanguageTrainer.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\training\\LanguageTrainer.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\LanguageTrainer.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\training\\LanguageTrainer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:18:11.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataLoader.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\data\\DataLoader.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\data\\DataLoader.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\data\\DataLoader.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\data\\DataLoader.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAQwFQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:12:44.932Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LanguageClassifier.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\LanguageClassifier.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\src\\modules\\LanguageClassifier.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\LanguageClassifier.cs",
+              "RelativeToolTip": "MoNeriSharp\\src\\modules\\LanguageClassifier.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T19:11:17.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "default.json",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\configs\\default.json",
+              "RelativeDocumentMoniker": "MoNeriSharp\\configs\\default.json",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\configs\\default.json",
+              "RelativeToolTip": "MoNeriSharp\\configs\\default.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-01-07T18:56:21.818Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Program.cs",
+              "RelativeDocumentMoniker": "MoNeriSharp\\Program.cs",
+              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Program.cs",
+              "RelativeToolTip": "MoNeriSharp\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T05:04:31.714Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

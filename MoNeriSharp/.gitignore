@@ -1,0 +1,11 @@
+# moNeriSharp ignore
+/logs/
+/data/clean/
+/data/splits/
+/notebooks/.ipynb_checkpoints/
+*.tmp
+*.log
+*.cache
+*.ds_store
+bin/
+obj/

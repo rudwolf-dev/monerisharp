@@ -1,0 +1,151 @@
+﻿Id, Contexto, Pregunta, Respuesta
+1,Saludo inicial,¿Cómo estás?,"Bien, gracias, ¿y tú?"
+2,Comida,¿Qué cenaste?,"Pedí tacos al pastor, estaban deliciosos"
+3,Planes de fin de semana,¿Qué harás el sábado?,"Estoy pensando ir al cine, quizá con amigos"
+4,Clima frío,¿Qué tal el clima hoy?,"Tuve que sacar la chamarra gruesa, hacía mucho frío"
+5,Música,¿Qué escuchas últimamente?,"Rock clásico, me relaja bastante"
+6,Videollamada,¿Qué pasó en la reunión?,"Me quedé dormido, y me despertó mi propio ronquido"
+7,Partido de fútbol,¿Viste el partido ayer?,"Sí, estuvo buenísimo, ese gol fue increíble"
+8,Trabajo,¿Qué tal el trabajo?,"Un poco pesado, pero nada fuera de lo normal"
+9,Viajes,¿Has viajado últimamente?,"No, pero tengo ganas de ir a la playa"
+10,Series,¿Qué serie estás viendo?,"Empecé una de misterio, está muy buena"
+11,Escuela,¿Cómo te fue en el examen?,"Creo que bien, aunque estaba difícil"
+12,Transporte,¿Cómo llegaste hoy?,"Me vine en metro, estaba lleno"
+13,Redes sociales,¿Viste el meme que te mandé?,"Sí, me hizo reír mucho"
+14,Videojuegos,¿Qué juegas ahora?,"Estoy con un RPG nuevo, está increíble"
+15,Familia,¿Cómo está tu mamá?,"Muy bien, gracias por preguntar"
+16,Amigos,¿Saliste con alguien ayer?,"Sí, fuimos a tomar café"
+17,Películas,¿Qué opinas de la nueva película?,"Está entretenida, aunque un poco larga"
+18,Noticias,¿Leíste lo que pasó hoy?,"Sí, estuvo en todos los periódicos"
+19,Deportes,¿Hiciste ejercicio?,Corrí un rato en el parque
+20,Compras,¿Qué compraste?,"Unos tenis nuevos, estaban en oferta"
+21,Animales,¿Tienes mascota?,"Sí, un perro muy juguetón"
+22,Fiesta,¿Vas a la fiesta mañana?,"Claro, ya confirmé mi asistencia"
+23,Comida rápida,¿Quieres pizza o hamburguesa?,"Prefiero pizza, siempre me gusta más"
+24,Libros,¿Qué estás leyendo?,"Una novela de misterio, me tiene atrapado"
+25,Vacaciones,¿Dónde quieres ir de vacaciones?,"A la playa, necesito descansar"
+26,Clases,¿Qué tal la clase de hoy?,"Fue interesante, aprendimos algo nuevo"
+27,Trabajo en equipo,¿Cómo salió el proyecto?,"Bien, todos colaboramos mucho"
+28,Tiempo libre,¿Qué hiciste en la tarde?,Me puse a ver videos en YouTube
+29,Comida casera,¿Qué cocinaste?,"Unas enchiladas verdes, quedaron muy buenas"
+30,Deporte extremo,¿Has hecho senderismo?,"Sí, una vez en la montaña"
+31,Eventos,¿Fuiste al concierto?,"Sí, estuvo increíble, la banda tocó genial"
+32,Clima cálido,¿Hace calor hoy?,"Sí, demasiado, tuve que prender el ventilador"
+33,Estudios,¿Ya terminaste la tarea?,"Sí, aunque me costó bastante"
+34,Trabajo remoto,¿Cómo te va trabajando desde casa?,"Bien, aunque a veces me distraigo"
+35,Películas clásicas,¿Has visto Casablanca?,"Sí, es un clásico que me encanta"
+36,Series nuevas,¿Ya viste la nueva temporada?,"Sí, la terminé en dos días"
+37,Amigos,¿Cuándo viste a Juan?,"Ayer, fuimos por unas cervezas"
+38,Viajes cortos,¿Has ido a Monterrey?,"Sí, varias veces, me gusta mucho"
+39,Comida internacional,¿Has probado sushi?,"Sí, me encanta con salsa de soya"
+40,Fiestas,¿Cómo estuvo la fiesta?,"Muy divertida, bailamos toda la noche"
+41,Deportes,¿Juegas fútbol?,"Sí, cada fin de semana"
+42,Animales,¿Te gustan los gatos?,"Sí, son muy tranquilos"
+43,Libros,¿Has leído Harry Potter?,"Sí, todos los libros"
+44,Vacaciones,¿Prefieres playa o montaña?,"Playa, sin duda"
+45,Clima,¿Está lloviendo?,"Sí, bastante fuerte"
+46,Noticias,¿Qué opinas de la noticia de hoy?,Me sorprendió mucho
+47,Videojuegos,¿Has jugado Mario Kart?,"Sí, es muy divertido"
+48,Redes sociales,¿Usas TikTok?,"Sí, paso horas viendo videos"
+49,Escuela,¿Qué materia te gusta más?,"Historia, siempre me ha interesado"
+50,Trabajo,¿Qué opinas de tu jefe?,"Es exigente, pero justo"
+51,Tecnología,¿Qué celular usas?,"Tengo un modelo reciente, funciona muy bien"
+52,Café,¿Quieres un café?,"Sí, con leche y sin azúcar"
+53,Trabajo,¿Tienes junta hoy?,"Sí, en la tarde con el equipo"
+54,Clima,¿Hace viento?,"Sí, bastante fuerte en la calle"
+55,Vacaciones,¿Ya planeaste tus vacaciones?,"Todavía no, estoy pensando en la playa"
+56,Comida,¿Qué desayunaste?,Huevos con frijoles y tortillas
+57,Series,¿Te gustan las comedias?,"Sí, me hacen reír mucho"
+58,Amigos,¿Cuándo viste a tus amigos?,"El fin de semana, jugamos videojuegos"
+59,Deportes,¿Practicas algún deporte?,"Sí, corro en las mañanas"
+60,Noticias,¿Viste las noticias?,"Sí, hubo un evento importante"
+61,Fiesta,¿Cómo estuvo la reunión?,"Muy divertida, todos bailaron"
+62,Animales,¿Has tenido gatos?,"Sí, uno cuando era niño"
+63,Libros,¿Lees novelas románticas?,"A veces, aunque prefiero misterio"
+64,Escuela,¿Qué tal tu profesor?,Es muy paciente y explica bien
+65,Trabajo,¿Te gusta tu oficina?,"Sí, es cómoda y tranquila"
+66,Viajes,¿Has ido a Cancún?,"Sí, me encantó el mar azul"
+67,Comida rápida,¿Prefieres tacos o pizza?,"Tacos, siempre son mi primera opción"
+68,Series,¿Ya viste Stranger Things?,"Sí, me atrapó desde el inicio"
+69,Películas,¿Te gustan las de terror?,"Sí, aunque me asusto fácil"
+70,Clima,¿Hace frío en tu ciudad?,"Sí, mucho en invierno"
+71,Tecnología,¿Usas computadora portátil?,"Sí, para trabajar y estudiar"
+72,Redes sociales,¿Publicas mucho en Instagram?,"No tanto, solo fotos de viajes"
+73,Videojuegos,¿Te gustan los shooters?,"Sí, juego Call of Duty"
+74,Amigos,¿Sales mucho con tus amigos?,"Sí, cada fin de semana"
+75,Trabajo,¿Tienes mucho estrés?,"A veces, pero lo manejo bien"
+76,Vacaciones,¿Prefieres ciudad o campo?,"Campo, es más relajante"
+77,Comida,¿Te gustan los postres?,"Sí, sobre todo el pastel de chocolate"
+78,Series,¿Qué opinas de Breaking Bad?,Es una de las mejores series
+79,Películas,¿Has visto Titanic?,"Sí, varias veces, me gusta mucho"
+80,Noticias,¿Qué opinas de la política?,"Es complicada, siempre hay debate"
+81,Deportes,¿Te gusta el básquetbol?,"Sí, lo juego con amigos"
+82,Animales,¿Has tenido peces?,"Sí, en una pecera pequeña"
+83,Libros,¿Lees poesía?,"Sí, me inspira bastante"
+84,Escuela,¿Qué tal tu clase de inglés?,"Muy buena, aprendí mucho"
+85,Trabajo,¿Te gusta trabajar en equipo?,"Sí, se aprende más"
+86,Viajes,¿Has ido a Europa?,"No, pero me encantaría"
+87,Comida rápida,¿Prefieres hamburguesa o hot dog?,"Hamburguesa, siempre me gusta más"
+88,Series,¿Te gustan las series cortas?,"Sí, son fáciles de ver"
+89,Películas,¿Has visto Matrix?,"Sí, es un clásico de ciencia ficción"
+90,Clima,¿Está soleado?,"Sí, mucho calor hoy"
+91,Tecnología,¿Usas redes sociales?,"Sí, casi todos los días"
+92,Redes sociales,¿Qué opinas de Facebook?,Ya casi no lo uso
+93,Videojuegos,¿Has jugado Zelda?,"Sí, es increíble"
+94,Amigos,¿Tienes muchos amigos?,"Sí, varios de la escuela"
+95,Trabajo,¿Te gusta tu jefe?,"Sí, es justo y amable"
+96,Vacaciones,¿Has ido a la montaña?,"Sí, me gusta mucho caminar ahí"
+97,Comida,¿Qué fruta prefieres?,Me gusta la sandía
+98,Series,¿Has visto The Office?,"Sí, me hace reír mucho"
+99,Películas,¿Te gustan las comedias?,"Sí, son muy divertidas"
+100,Noticias,¿Lees el periódico?,"Sí, en línea todos los días"
+101,Saludo,¿Qué tal tu día?,"Ha sido productivo, pero con algunos contratiempos"
+102,Música,¿Tienes alguna canción favorita ahora?,"Sí, una canción indie que no puedo dejar de escuchar"
+103,Comida,¿Cuál es tu antojo hoy?,"Tengo ganas de algo dulce, quizá helado de vainilla"
+104,Tecnología,¿Has probado la nueva app?,"Sí, la instalé y me parece muy útil"
+105,Viajes,¿Cuál fue tu último viaje?,"Fui a un pueblo pequeño, descansé mucho"
+106,Películas,¿Recomiendas alguna película?,"Sí, mira una comedia ligera para relajarte"
+107,Trabajo,¿Cómo va el proyecto?,"Vamos por buen camino, sólo faltan pruebas finales"
+108,Familia,¿Cómo está tu hermano?,"Está bien, empezó un nuevo trabajo"
+109,Amigos,¿Te reúnes esta semana?,Probablemente el sábado por la tarde
+110,Deportes,¿Haces ejercicio hoy?,"Sí, salí a caminar media hora"
+111,Estudios,¿Qué estudiaste hoy?,Revisé matemáticas y algunos apuntes de historia
+112,Clima,¿Cómo está el tiempo allá?,Un poco nublado pero agradable
+113,Comida casera,¿Qué cocinaste hoy?,Preparé una ensalada con pollo a la plancha
+114,Mascotas,¿Cómo está tu mascota?,"Duerme todo el tiempo, muy tranquilo"
+115,Entretenimiento,¿Qué haces para relajarte?,Veo videos cortos y escucho música suave
+116,Tecnología,¿Trabajas con IA?,"Sí, estoy probando modelos para clasificación de texto"
+117,Vacaciones,¿Qué destino sueñas visitar?,Japón durante la primavera para ver los cerezos
+118,Salud,¿Te sientes bien?,Un poco cansado pero con energía para la tarde
+119,Compras,¿Has comprado algo interesante?,Un libro sobre fotografía que quería leer
+120,Gastronomía,¿Café o té?,Café por la mañana y té por la tarde
+121,Juegos,¿Juegas en línea?,"Sí, de vez en cuando con amigos"
+122,Fiestas,¿Te gustan las celebraciones?,"Sí, disfruto reunirme con gente cercana"
+123,Series,¿Qué serie te enganchó recientemente?,Una comedia dramática con buen ritmo
+124,Tecnología,¿Prefieres Windows o Linux?,"Usualmente Windows, pero uso Linux para desarrollo"
+125,Música,¿Vas a conciertos?,"Sí, cuando la banda favorita viene a la ciudad"
+126,Redes sociales,¿Publicas historias frecuentemente?,"No mucho, solo fotografías de viajes"
+127,Películas,¿Te gusta el cine independiente?,"Sí, tiene propuestas originales e inesperadas"
+128,Trabajo remoto,¿Tienes oficina en casa?,"Sí, un espacio pequeño y funcional"
+129,Viajes,¿Prefieres viajar solo o acompañado?,"Con amigos, compartir experiencias es mejor"
+130,Comida,¿Tienes alguna receta favorita?,"Una sopa que hace mi abuela, muy reconfortante"
+131,Familia,¿Qué planes con la familia?,Una comida el domingo para ponernos al día
+132,Amigos,¿Organizan salidas,"Sí, a veces vamos a probar nuevos restaurantes"
+133,Deportes,¿Sigues a algún equipo?,"Sí, apoyo al equipo local desde niño"
+134,Animales,¿Te gustaría tener otra mascota?,"Sí, me encantaría tener un gato"
+135,Libros,¿Qué género lees más?,Misterio y novela histórica
+136,Noticias,¿Sigues las noticias internacionales?,"Un poco, siempre hay cosas interesantes"
+137,Tiempo libre,¿Qué hobby tienes?,Fotografía urbana durante los fines de semana
+138,Tecnología,¿Qué gadget recomiendas?,Un buen conjunto de auriculares con cancelación de ruido
+139,Comida rápida,¿Dónde comes cuando sales?,Una taquería local con tacos muy buenos
+140,Series,¿Recomiendas documentales?,"Sí, sobre ciencia y tecnología son muy instructivos"
+141,Películas,¿Prefieres ver en casa o en cine?,"En cine para estrenos, en casa para clásicos"
+142,Viajes cortos,¿Qué plan para el fin de semana?,Una escapada a la playa cercana
+143,Salud,¿Sigues alguna dieta?,Trato de comer balanceado y evitar procesados
+144,Trabajo,¿Qué te motiva en el trabajo?,Aprender cosas nuevas y ayudar al equipo
+145,Escuela,¿Qué recuerdo tienes de la escuela?,Las excursiones y los juegos con amigos
+146,Fiesta,¿Qué música pondrías en una fiesta?,Mejores canciones para bailar y cantar
+147,Clima,¿Te gusta la lluvia?,"A veces, es perfecta para leer en casa"
+148,Viajes,¿Viajarías en grupo organizado?,"Sí, es cómodo y aprendes en el camino"
+149,Comida,¿Comes fuera seguido?,"No mucho, prefiero cocinar en casa"
+150,Tecnología,¿Qué opinas de los coches eléctricos?,Son una buena alternativa para reducir emisiones

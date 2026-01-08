@@ -1,79 +1,151 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Text.Json;
 
 namespace MoNeriSharp.Utils
 {
-    /// <summary>
-    /// Tokenizador simple basado en vocabulario de palabras.
-    /// Convierte texto en índices enteros para TorchSharp.
-    /// </summary>
     public class Tokenizer
     {
-        private Dictionary<string, int> vocab;
-        private int unkId;
-        private int padId;
+        public Dictionary<string, int> Vocab { get; private set; }
+        public Dictionary<int, string> InvVocab { get; private set; }
+        public int VocabSize => Vocab.Count;
 
-        public Tokenizer(IEnumerable<string> corpus, int minFreq = 1)
+        // Índices reservados
+        public const int PAD = 0;
+        public const int UNK = 1;
+        public const int BOS = 2;
+        public const int EOS = 3;
+
+        public Tokenizer()
         {
-            vocab = new Dictionary<string, int>();
-            var freq = new Dictionary<string, int>();
+            Vocab = new Dictionary<string, int>();
+            InitSpecialTokens();
+            BuildInverse();
+        }
 
-            // Contar frecuencia de palabras
+        public Tokenizer(List<string> corpus, int vocabSize = 50000)
+        {
+            Vocab = new Dictionary<string, int>();
+            InitSpecialTokens();
+            BuildVocabulary(corpus, vocabSize);
+            BuildInverse();
+        }
+
+        private void InitSpecialTokens()
+        {
+            Vocab["<PAD>"] = PAD;
+            Vocab["<UNK>"] = UNK;
+            Vocab["<BOS>"] = BOS;
+            Vocab["<EOS>"] = EOS;
+        }
+
+        public void BuildVocabulary(List<string> corpus, int vocabSize = 50000)
+        {
+            int idx = Vocab.Count; // empieza después de los tokens especiales
+
             foreach (var text in corpus)
             {
-                foreach (var word in text.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                foreach (var tokenRaw in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
                 {
-                    if (!freq.ContainsKey(word)) freq[word] = 0;
-                    freq[word]++;
+                    var token = tokenRaw.ToLowerInvariant();
+
+                    if (!Vocab.ContainsKey(token))
+                    {
+                        Vocab[token] = idx++;
+                        if (idx >= vocabSize) return;
+                    }
                 }
             }
-
-            // IDs reservados
-            padId = 0;
-            unkId = 1;
-            vocab["<PAD>"] = padId;
-            vocab["<UNK>"] = unkId;
-
-            int idx = 2;
-            foreach (var kv in freq.Where(kv => kv.Value >= minFreq))
-            {
-                vocab[kv.Key] = idx++;
-            }
+            BuildInverse();
         }
 
-        public int[] Encode(string text, int maxLen = 10)
+        // ===== Nuevo método: expandir vocabulario =====
+        public void ExpandVocabulary(List<string> corpus, int vocabSize = 50000)
         {
-            var words = text.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var tokens = new List<int>();
+            int idx = Vocab.Count; // continuar desde el último índice
 
-            foreach (var w in words)
+            foreach (var text in corpus)
             {
-                if (vocab.ContainsKey(w))
-                    tokens.Add(vocab[w]);
+                foreach (var tokenRaw in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    var token = tokenRaw.ToLowerInvariant();
+
+                    if (!Vocab.ContainsKey(token))
+                    {
+                        Vocab[token] = idx++;
+                        if (idx >= vocabSize) return;
+                    }
+                }
+            }
+            BuildInverse();
+        }
+
+        private void BuildInverse()
+        {
+            InvVocab = new Dictionary<int, string>();
+            foreach (var kv in Vocab)
+                InvVocab[kv.Value] = kv.Key;
+        }
+
+        // ===== Guardar vocabulario =====
+        public void Save(string path)
+        {
+            var json = JsonSerializer.Serialize(Vocab);
+            File.WriteAllText(path, json);
+        }
+
+        // ===== Cargar vocabulario =====
+        public void Load(string path)
+        {
+            var json = File.ReadAllText(path);
+            Vocab = JsonSerializer.Deserialize<Dictionary<string, int>>(json);
+            BuildInverse();
+        }
+
+        public int[] Encode(string text, int maxLen)
+        {
+            var tokens = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var ids = new List<int>();
+
+            // Añadir token de inicio
+            ids.Add(BOS);
+
+            foreach (var tokenRaw in tokens)
+            {
+                var token = tokenRaw.ToLowerInvariant();
+
+                if (Vocab.TryGetValue(token, out int id))
+                    ids.Add(id);
                 else
-                    tokens.Add(unkId);
+                    ids.Add(UNK);
             }
 
-            // Padding / truncado
-            if (tokens.Count < maxLen)
-            {
-                tokens.AddRange(Enumerable.Repeat(padId, maxLen - tokens.Count));
-            }
-            else if (tokens.Count > maxLen)
-            {
-                tokens = tokens.Take(maxLen).ToList();
-            }
+            // Añadir token de fin
+            ids.Add(EOS);
 
-            return tokens.ToArray();
+            // Padding
+            while (ids.Count < maxLen) ids.Add(PAD);
+            if (ids.Count > maxLen) ids = ids.GetRange(0, maxLen);
+
+            return ids.ToArray();
         }
 
-        public string Decode(int[] tokens)
+        // ===== Decode =====
+        public string Decode(int[] ids)
         {
-            var inv = vocab.ToDictionary(kv => kv.Value, kv => kv.Key);
-            return string.Join(" ", tokens.Select(t => inv.ContainsKey(t) ? inv[t] : "<UNK>"));
-        }
+            var tokens = new List<string>();
 
-        public int VocabSize => vocab.Count;
+            foreach (var id in ids)
+            {
+                if (id == PAD) continue;
+                if (id == BOS) continue;
+                if (id == EOS) break;
+
+                if (InvVocab.TryGetValue(id, out string token))
+                    tokens.Add(token);
+                else
+                    tokens.Add("<UNK>");
+            }
+
+            return string.Join(" ", tokens);
+        }
     }
 }

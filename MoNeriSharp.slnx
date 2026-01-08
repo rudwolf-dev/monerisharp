@@ -1,3 +1,8 @@
 <Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Publico" />
+    <BuildType Name="Release" />
+  </Configurations>
   <Project Path="MoNeriSharp/MoNeriSharp.csproj" />
 </Solution>

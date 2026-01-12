@@ -1,151 +1,244 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace MoNeriSharp.Utils
 {
+    // ===== Tokens especiales =====
+    public enum SpecialToken
+    {
+        PAD = 0,
+        EOS,
+        UNK,
+        ANSWER,
+        USER,
+        ASSISTANT,
+        SYSTEM,
+        SEP,
+        START,
+        END,
+        MASK,
+        QUESTION,
+        CONTEXT,
+        TITLE,
+        SUMMARY,
+        DATA,
+        CODE,
+        URL,
+        DATE,
+        NUMBER,
+        EXCLAMATION_OPEN,
+        EXCLAMATION_CLOSE,
+        QUESTION_OPEN,
+        QUESTION_CLOSE,
+        PAREN_OPEN,
+        PAREN_CLOSE,
+        BRACE_OPEN,
+        BRACE_CLOSE,
+        BRACKET_OPEN,
+        BRACKET_CLOSE,
+        ANGLE_OPEN,
+        ANGLE_CLOSE,
+        SPACE,      // <SPACE>
+        NEWLINE     // <NEWLINE>
+    }
+
+    // ===== Tipos de vocabulario =====
+    public enum VocabType
+    {
+        Word,
+        Subword,
+        Syllable
+    }
+
     public class Tokenizer
     {
         public Dictionary<string, int> Vocab { get; private set; }
-        public Dictionary<int, string> InvVocab { get; private set; }
+        public Dictionary<int, string> VocabInverse { get; private set; }
         public int VocabSize => Vocab.Count;
 
-        // Índices reservados
-        public const int PAD = 0;
-        public const int UNK = 1;
-        public const int BOS = 2;
-        public const int EOS = 3;
+        public bool CaseSensitive { get; set; } = true;
+        public VocabType Mode { get; set; } = VocabType.Word;
+
+        // Subword vocabulario y merges
+        private Dictionary<string, int> SubwordVocab;
+        private List<(string, string)> Merges;
 
         public Tokenizer()
         {
             Vocab = new Dictionary<string, int>();
-            InitSpecialTokens();
-            BuildInverse();
-        }
 
-        public Tokenizer(List<string> corpus, int vocabSize = 50000)
-        {
-            Vocab = new Dictionary<string, int>();
-            InitSpecialTokens();
-            BuildVocabulary(corpus, vocabSize);
-            BuildInverse();
-        }
-
-        private void InitSpecialTokens()
-        {
-            Vocab["<PAD>"] = PAD;
-            Vocab["<UNK>"] = UNK;
-            Vocab["<BOS>"] = BOS;
-            Vocab["<EOS>"] = EOS;
-        }
-
-        public void BuildVocabulary(List<string> corpus, int vocabSize = 50000)
-        {
-            int idx = Vocab.Count; // empieza después de los tokens especiales
-
-            foreach (var text in corpus)
+            // Inicializar todos los tokens especiales desde el enum
+            foreach (SpecialToken token in Enum.GetValues(typeof(SpecialToken)))
             {
-                foreach (var tokenRaw in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var token = tokenRaw.ToLowerInvariant();
+                Vocab.Add($"<{token}>", (int)token);
+            }
 
-                    if (!Vocab.ContainsKey(token))
-                    {
-                        Vocab[token] = idx++;
-                        if (idx >= vocabSize) return;
-                    }
+            VocabInverse = Vocab.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
+        }
+
+        // ===== Construcción de vocabulario =====
+        public void BuildVocabulary(IEnumerable<string> corpus, VocabType vocabType, int vocabSize = 50000)
+        {
+            switch (Mode)
+            {
+                case VocabType.Word:
+                    Vocabulary.BuildWordVocabulary(Vocab, VocabInverse, corpus, CaseSensitive, vocabSize);
+                    break;
+                case VocabType.Subword:
+                    Vocabulary.BuildSubwordVocabulary(out SubwordVocab, out Merges, corpus, vocabSize);
+                    break;
+                case VocabType.Syllable:
+                    Vocabulary.BuildSyllableVocabulary(Vocab, VocabInverse, corpus, CaseSensitive, vocabSize);
+                    break;
+            }
+        }
+
+        // ===== Expansión de vocabulario =====
+        public void ExpandVocabulary(IEnumerable<string> corpus, VocabType vocabType, int maxNewTokens)
+        {
+            switch (Mode)
+            {
+                case VocabType.Word:
+                    Vocabulary.ExpandWordVocabulary(Vocab, VocabInverse, corpus, CaseSensitive, maxNewTokens);
+                    break;
+                case VocabType.Subword:
+                    Vocabulary.BuildSubwordVocabulary(out SubwordVocab, out Merges, corpus, Vocab.Count + maxNewTokens);
+                    break;
+                case VocabType.Syllable:
+                    Vocabulary.ExpandSyllableVocabulary(Vocab, VocabInverse, corpus, CaseSensitive, maxNewTokens);
+                    break;
+            }
+        }
+
+        // ===== Encode =====
+        public int[] Encode(string text, int maxLen = 50)
+        {
+            if (!CaseSensitive)
+                text = text.ToLowerInvariant();
+
+            text = text.Replace("\r\n", "\n").Replace("\r", "\n");
+
+            var tokens = new List<int>();
+
+            foreach (char c in text)
+            {
+                // Espacios y saltos
+                if (c == ' ') { tokens.Add((int)SpecialToken.SPACE); continue; }
+                if (c == '\n') { tokens.Add((int)SpecialToken.NEWLINE); continue; }
+
+                // Puntuación y símbolos explícitos
+                switch (c)
+                {
+                    case '¡': tokens.Add((int)SpecialToken.EXCLAMATION_OPEN); continue;
+                    case '!': tokens.Add((int)SpecialToken.EXCLAMATION_CLOSE); continue;
+                    case '¿': tokens.Add((int)SpecialToken.QUESTION_OPEN); continue;
+                    case '?': tokens.Add((int)SpecialToken.QUESTION_CLOSE); continue;
+                    case '(': tokens.Add((int)SpecialToken.PAREN_OPEN); continue;
+                    case ')': tokens.Add((int)SpecialToken.PAREN_CLOSE); continue;
+                    case '{': tokens.Add((int)SpecialToken.BRACE_OPEN); continue;
+                    case '}': tokens.Add((int)SpecialToken.BRACE_CLOSE); continue;
+                    case '[': tokens.Add((int)SpecialToken.BRACKET_OPEN); continue;
+                    case ']': tokens.Add((int)SpecialToken.BRACKET_CLOSE); continue;
+                    case '<': tokens.Add((int)SpecialToken.ANGLE_OPEN); continue;
+                    case '>': tokens.Add((int)SpecialToken.ANGLE_CLOSE); continue;
+                }
+
+                var symbol = c.ToString();
+
+                switch (Mode)
+                {
+                    case VocabType.Syllable:
+                        var syllables = Silabificador.SplitIntoSyllables(symbol);
+                        foreach (var s in syllables)
+                            tokens.Add(Vocab.ContainsKey(s) ? Vocab[s] : (int)SpecialToken.UNK);
+                        break;
+
+                    case VocabType.Subword:
+                        if (SubwordVocab != null)
+                        {
+                            var symbols = symbol.ToCharArray().Select(ch => ch.ToString()).ToList();
+                            foreach (var merge in Merges)
+                            {
+                                for (int i = 0; i < symbols.Count - 1; i++)
+                                {
+                                    if (symbols[i] == merge.Item1 && symbols[i + 1] == merge.Item2)
+                                    {
+                                        symbols[i] = symbols[i] + symbols[i + 1];
+                                        symbols.RemoveAt(i + 1);
+                                        i = Math.Max(i - 1, 0);
+                                    }
+                                }
+                            }
+                            foreach (var s in symbols)
+                                tokens.Add(SubwordVocab.ContainsKey(s) ? SubwordVocab[s] : (int)SpecialToken.UNK);
+                        }
+                        break;
+
+                    default: // Word
+                        tokens.Add(Vocab.ContainsKey(symbol) ? Vocab[symbol] : (int)SpecialToken.UNK);
+                        break;
                 }
             }
-            BuildInverse();
-        }
 
-        // ===== Nuevo método: expandir vocabulario =====
-        public void ExpandVocabulary(List<string> corpus, int vocabSize = 50000)
-        {
-            int idx = Vocab.Count; // continuar desde el último índice
+            while (tokens.Count < maxLen) tokens.Add((int)SpecialToken.PAD);
+            if (tokens.Count > maxLen) tokens = tokens.Take(maxLen).ToList();
 
-            foreach (var text in corpus)
-            {
-                foreach (var tokenRaw in text.Split(' ', StringSplitOptions.RemoveEmptyEntries))
-                {
-                    var token = tokenRaw.ToLowerInvariant();
-
-                    if (!Vocab.ContainsKey(token))
-                    {
-                        Vocab[token] = idx++;
-                        if (idx >= vocabSize) return;
-                    }
-                }
-            }
-            BuildInverse();
-        }
-
-        private void BuildInverse()
-        {
-            InvVocab = new Dictionary<int, string>();
-            foreach (var kv in Vocab)
-                InvVocab[kv.Value] = kv.Key;
-        }
-
-        // ===== Guardar vocabulario =====
-        public void Save(string path)
-        {
-            var json = JsonSerializer.Serialize(Vocab);
-            File.WriteAllText(path, json);
-        }
-
-        // ===== Cargar vocabulario =====
-        public void Load(string path)
-        {
-            var json = File.ReadAllText(path);
-            Vocab = JsonSerializer.Deserialize<Dictionary<string, int>>(json);
-            BuildInverse();
-        }
-
-        public int[] Encode(string text, int maxLen)
-        {
-            var tokens = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var ids = new List<int>();
-
-            // Añadir token de inicio
-            ids.Add(BOS);
-
-            foreach (var tokenRaw in tokens)
-            {
-                var token = tokenRaw.ToLowerInvariant();
-
-                if (Vocab.TryGetValue(token, out int id))
-                    ids.Add(id);
-                else
-                    ids.Add(UNK);
-            }
-
-            // Añadir token de fin
-            ids.Add(EOS);
-
-            // Padding
-            while (ids.Count < maxLen) ids.Add(PAD);
-            if (ids.Count > maxLen) ids = ids.GetRange(0, maxLen);
-
-            return ids.ToArray();
+            return tokens.ToArray();
         }
 
         // ===== Decode =====
-        public string Decode(int[] ids)
+        public string Decode(int[] tokens)
         {
-            var tokens = new List<string>();
-
-            foreach (var id in ids)
+            var sb = new StringBuilder();
+            foreach (var t in tokens)
             {
-                if (id == PAD) continue;
-                if (id == BOS) continue;
-                if (id == EOS) break;
+                if (t == (int)SpecialToken.PAD || t == (int)SpecialToken.EOS) continue;
 
-                if (InvVocab.TryGetValue(id, out string token))
-                    tokens.Add(token);
-                else
-                    tokens.Add("<UNK>");
+                if (t == (int)SpecialToken.SPACE) { sb.Append(' '); continue; }
+                if (t == (int)SpecialToken.NEWLINE) { sb.Append('\n'); continue; }
+
+                if (t == (int)SpecialToken.EXCLAMATION_OPEN) { sb.Append('¡'); continue; }
+                if (t == (int)SpecialToken.EXCLAMATION_CLOSE) { sb.Append('!'); continue; }
+                if (t == (int)SpecialToken.QUESTION_OPEN) { sb.Append('¿'); continue; }
+                if (t == (int)SpecialToken.QUESTION_CLOSE) { sb.Append('?'); continue; }
+                if (t == (int)SpecialToken.PAREN_OPEN) { sb.Append('('); continue; }
+                if (t == (int)SpecialToken.PAREN_CLOSE) { sb.Append(')'); continue; }
+                if (t == (int)SpecialToken.BRACE_OPEN) { sb.Append('{'); continue; }
+                if (t == (int)SpecialToken.BRACE_CLOSE) { sb.Append('}'); continue; }
+                if (t == (int)SpecialToken.BRACKET_OPEN) { sb.Append('['); continue; }
+                if (t == (int)SpecialToken.BRACKET_CLOSE) { sb.Append(']'); continue; }
+                if (t == (int)SpecialToken.ANGLE_OPEN) { sb.Append('<'); continue; }
+                if (t == (int)SpecialToken.ANGLE_CLOSE) { sb.Append('>'); continue; }
+
+                if (VocabInverse.TryGetValue(t, out var s))
+                {
+                    sb.Append(s);
+                }
             }
+            return sb.ToString();
+        }
 
-            return string.Join(" ", tokens);
+        // ===== Persistencia =====
+        public void Save(string path)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                StringEscapeHandling = StringEscapeHandling.EscapeNonAscii,
+                Formatting = Formatting.Indented
+            };
+
+            var json = JsonConvert.SerializeObject(Vocab, settings);
+            System.IO.File.WriteAllText(path, json, Encoding.UTF8);
+        }
+
+        public void Load(string path)
+        {
+            var json = System.IO.File.ReadAllText(path, Encoding.UTF8);
+            Vocab = JsonConvert.DeserializeObject<Dictionary<string, int>>(json);
+            VocabInverse = Vocab.ToDictionary(kvp => kvp.Value, kvp => kvp.Key);
         }
     }
 }

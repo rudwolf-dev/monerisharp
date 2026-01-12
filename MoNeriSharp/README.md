@@ -1,103 +1,129 @@
-﻿# MoNeriSharp
+# 📘 MoNeriSharp
 
-MoNeriSharp es un proyecto en **C#/.NET** que implementa un modelo de lenguaje entrenado con **TorchSharp** y soporta múltiples formatos de dataset (`.parquet`, `.pt`, `.csv`, `.tsv`).  
-El objetivo es construir, entrenar y evaluar un modelo de lenguaje ligero con vocabulario configurable y filtrado de tokens inválidos.
-
----
-
-## ✨ Características principales
-
-- **Soporte de datasets**:
-  - `.parquet` (lectura con ParquetSharp)
-  - `.pt` (tensores TorchSharp)
-  - `.csv` / `.tsv` (texto tabular)
-
-- **Gestión de vocabulario**:
-  - Tokens especiales: `<PAD>`, `<UNK>`, `<BOS>`, `<EOS>`
-  - Construcción inicial desde corpus
-  - Expansión incremental con nuevos datasets
-  - Filtros de palabras inválidas (errores, ruido, groserías, otros idiomas)
-
-- **Entrenamiento**:
-  - Modelo de lenguaje recurrente (`LanguageModel`)
-  - Entrenamiento con `LanguageTrainer`
-  - Guardado y carga de checkpoints (`moNeriLM.pt`)
-
-- **Generación de texto**:
-  - Prompt inicial configurable
-  - Control de longitud máxima y temperatura
+MoNeriSharp es un framework en **C# + TorchSharp** para experimentar con **modelos de lenguaje** (LSTM y Transformer GPT‑like).  
+Su objetivo es ofrecer una base clara y extensible para entrenar, validar y generar texto con arquitecturas modernas.
 
 ---
 
-## 📦 Estructura del proyecto
+## 🚀 Características principales
+
+- **Interfaz común `ILanguageModel`**  
+  - `Forward(tokens, mask = null)` → unifica LSTM y Transformer.  
+  - `Generate(prompt, tokenizer, …)` → generación autoregresiva.  
+
+- **Modelos disponibles**  
+  - `LSTMModel`: arquitectura recurrente clásica con embeddings, LSTM y capa final.  
+  - `TransformerModel`: arquitectura GPT‑like con:
+    - Máscara causal (autoregresiva).  
+    - Positional embeddings aprendibles.  
+    - Bloques `TransformerBlock` con pre‑LayerNorm, residual connections y feed‑forward con GELU.  
+    - Normalización final antes de la proyección al vocabulario.  
+
+- **Entrenadores**  
+  - `LSTMTrainer`: entrenamiento estándar con early stopping.  
+  - `TransformerTrainer`: entrenamiento autoregresivo con AdamW, métricas de precisión y perplexity, early stopping.  
+
+- **Tokenizador modular**  
+  - Limpieza de texto (`WordCleaner`).  
+  - Construcción de vocabulario (`VocabularyBuilder`).  
+  - Codificación y decodificación de secuencias.  
+
+---
+
+## 📂 Estructura del proyecto
 
 ```
-MoNeriSharp/
-├── Program.cs              # Punto de entrada principal
-├── modules/                # Definición de modelos
-├── Training/               # Lógica de entrenamiento
-├── Data/                   # Manejo de datasets
-├── Utils/
-│   ├── Tokenizer.cs        # Tokenizador con vocabulario expansivo
-│   ├── BadWordsFilter.cs   # Filtro de palabras inválidas
-│   └── ...
-└── models/                 # Carpeta donde se guardan vocabulario y checkpoints
-```
+
+MoNeriSharp/ ├── src/ │ ├── modules/ │ │ ├── ILanguageModel.cs │ │ ├── LSTMModel.cs │ │ ├── TransformerModel.cs │ │ └── TransformerBlock.cs │ ├── training/ │ │ ├── LSTMTrainer.cs │ │ └── TransformerTrainer.cs │ └── utils/ │ ├── Tokenizer.cs │ ├── WordCleaner.cs │ └── VocabularyBuilder.cs ├── models/ # Carpeta donde se guardan modelos entrenados y métricas └── README.md
+
+````
 
 ---
 
-## 🚀 Uso
+## ⚙️ Ejemplo de uso
 
-### 1. Preparar datasets
-Coloca tus archivos en `data/raw/` con alguno de los formatos soportados:
-- `*.parquet`
-- `*.pt`
-- `*.csv` / `*.tsv`
+### Entrenar un Transformer GPT‑like
+```csharp
+var tokenizer = new Tokenizer(vocab);
+var model = new TransformerModel(
+    name: "gpt-mini",
+    vocabSize: tokenizer.VocabSize,
+    embedDim: 256,
+    numHeads: 8,
+    numLayers: 6,
+    maxSeqLen: 512
+);
 
-### 2. Ejecutar el proyecto
-```bash
-dotnet run
-```
+TransformerTrainer.Train(
+    model,
+    trainCorpus,
+    valCorpus,
+    tokenizer,
+    epochs: 20,
+    batchSize: 32,
+    maxLenHint: 128,
+    lr: 0.0005,
+    patience: 3,
+    modelFileName: "gpt-mini.pt"
+);
+````
 
-### 3. Flujo de ejecución
-1. Se detecta el dataset disponible (prioridad: `.parquet` > `.pt` > `.csv/.tsv`).
-2. Se construye/expande el vocabulario (`vocab.json`).
-3. Se entrena el modelo (`moNeriLM.pt`).
-4. Se guarda el checkpoint y se genera texto de ejemplo.
-
----
-
-## ⚙️ Configuración
-
-- **Vocabulario máximo**: `50000` tokens (ajustable en `Program.cs`).
-- **Entrenamiento**:
-  - Epochs: `2`
-  - Batch size: `32`
-  - Longitud máxima: `20`
-  - Learning rate: `3e-4`
-  - Validation split: `0.1`
-  - Patience: `3`
-
----
-
-## 🧹 Filtrado de tokens
-
-El archivo `BadWordsFilter.cs` permite limpiar el corpus de:
-- Palabras erróneas (`asdfgh`, `qwerty`, `undefined`, etc.)
-- Tokens en otros idiomas (`bonjour`, `ciao`, `こんにちは`, etc.)
-- Groserías en español e inglés (`puta`, `mierda`, `fuck`, `shit`, etc.)
-
-Ejemplo de uso en `Program.cs`:
+### Generar texto
 
 ```csharp
-corpus = BadWordsFilter.CleanCorpus(corpus);
-tokenizer.ExpandVocabulary(corpus, vocabSize: 50000);
+string prompt = "Había una vez en Saltillo";
+string output = model.Generate(prompt, tokenizer, maxLen: 50);
+Console.WriteLine(output);
 ```
 
 ---
 
-## 📌 Próximos pasos
+## 📊 Métricas
 
-- Añadir soporte para **listas negras configurables** desde archivo externo (`JSON/TXT`).
-- Implementar métricas de evaluación (perplejidad, accuracy).
-- Extender el modelo con capas adicionales o embeddings preentrenados.
+- **Loss promedio por epoch** (train/val).
+- **Accuracy de tokens**.
+- **Perplexity** (criterio de early stopping).
+- Exportación automática a `training_metrics.csv`.
+
+---
+
+## 📊 Flujo de entrenamiento y generación
+
+```mermaid
+flowchart TD
+    A[Corpus de entrenamiento] --> B[Tokenizer]
+    B --> C[ILanguageModel]
+    C -->|Forward| D[Trainer]
+    D --> E[Optimización AdamW / Adam]
+    E --> F[Métricas: Loss, Accuracy, Perplexity]
+    F --> G[Early Stopping / Guardado de modelo]
+
+    subgraph Modelos
+        C1[LSTMModel]
+        C2[TransformerModel GPT-like]
+        C1 --> C
+        C2 --> C
+    end
+
+    H[Prompt de usuario] --> B
+    B --> C
+    C -->|Generate| I[Texto generado]
+```
+
+---
+
+## 🛠️ Roadmap
+
+- [x] LSTM básico con generación.
+- [x] Transformer GPT‑like con causal masking.
+- [x] Interfaz común `ILanguageModel`.
+- [ ] Scheduler de learning rate (warmup + cosine decay).
+- [ ] Dataset más grande y benchmarks de calidad.
+- [ ] Integración multimodal (texto + voz).
+
+---
+
+## 📜 Licencia
+
+Proyecto educativo y experimental. Uso libre para investigación y aprendizaje.
+Nada comercial

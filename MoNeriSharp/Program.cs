@@ -1,283 +1,278 @@
-﻿using MoNeriSharp.modules;
-using MoNeriSharp.Training;
-using MoNeriSharp.Utils;
-using ParquetSharp;
-using System.Data;
-using TorchSharp;
-using static TorchSharp.torch;
-
-using MoNeriSharp.Utils;
+﻿using Microsoft.VisualBasic;
+using MoNeriSharp;
+using MoNeriSharp.Clases;
 using MoNeriSharp.modules;
 using MoNeriSharp.Training;
+using MoNeriSharp.Utils;
 using TorchSharp;
-using static TorchSharp.torch;
 
-namespace MoNeriSharp.App
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        DirectorySetup.EnsureProjectDirectories();
+
+        ConsoleHelpers.PrintHeader("Entrenando moNeriLM...");
+
+        // ===== Parámetros generales =====
+        int epochs = ConsoleHelpers.AskIntWithInfo("Ingresa número de epochs:",
+            "Número de veces que el modelo verá todo el dataset. Más epochs = mejor ajuste, pero mayor tiempo de entrenamiento.", 5);
+
+        int batchSize = ConsoleHelpers.AskIntWithInfo("Ingresa tamaño de batch:",
+            "Cantidad de ejemplos procesados en cada paso. Valores altos aceleran el entrenamiento pero requieren más memoria.", 32);
+
+        bool filtrarGroserias = ConsoleHelpers.AskBool("¿Quieres censurar las malas palabras en el corpus? (s/n, default n): ", false);
+
+        string modelFileName = ConsoleHelpers.AskFileName("¿Quieres guardar con otro nombre? (s/n, default n): ",
+            "moNeriLM.pt");
+
+        var device = torch.cuda.is_available() ? torch.CUDA : torch.CPU;
+
+        // ===== Corpus =====
+        ConsoleHelpers.PrintHeader("Cargando corpus...");
+        List<string> trainCorpus, valCorpus;
+        DataLoader.LoadTrainAndValidation("data/training", "data/validation", out trainCorpus, out valCorpus);
+
+        ConsoleHelpers.PrintSuccess($"Corpus entrenamiento: {trainCorpus.Count} frases");
+        ConsoleHelpers.PrintSuccess($"Corpus validación: {valCorpus.Count} frases");
+
+        // ===== Tokenizer =====
+        Directory.CreateDirectory("models");
+        string vocabPath = Path.Combine("models", "vocab.json");
+
+        var tokenizer = new Tokenizer();
+
+        trainCorpus = TokenFilter.CleanCorpus(trainCorpus);
+        valCorpus = TokenFilter.CleanCorpus(valCorpus);
+
+        if (filtrarGroserias)
         {
-            DatasetFilter.LoadCsv("data/censura.csv");
+            ConsoleHelpers.PrintWarning("Aplicando filtro de groserías...");
+            trainCorpus = BadwordFilter.CleanCorpus(trainCorpus);
+            valCorpus = BadwordFilter.CleanCorpus(valCorpus);
+        }
 
-            Console.WriteLine("Entrenando moNeriLM con LanguageTrainer...");
+        trainCorpus = DatasetFilter.CleanCorpus(trainCorpus);
+        valCorpus = DatasetFilter.CleanCorpus(valCorpus);
 
-            // ===== Preguntar parámetros =====
-            Console.Write("👉 Ingresa número de epochs (default 2): ");
-            string epochsInput = Console.ReadLine();
-            int epochs = string.IsNullOrWhiteSpace(epochsInput) ? 2 : int.Parse(epochsInput);
+        // ===== Selección de tipo de vocabulario =====
+        int vocabChoice = ConsoleHelpers.AskOption(
+            "¿Qué tipo de vocabulario quieres usar?",
+            new string[] { "Palabras", "Subwords (BPE)", "Sílabas" },
+            new string[] {
+                "Cada palabra es un token. Simple pero vocabulario grande.",
+                "Subwords con BPE. Estándar en modelos modernos.",
+                "Sílabas. Más natural para español, secuencias más largas."
+            },
+            def: 0
+        );
 
-            Console.Write("👉 Ingresa tamaño de batch (default 32): ");
-            string batchInput = Console.ReadLine();
-            int batchSize = string.IsNullOrWhiteSpace(batchInput) ? 32 : int.Parse(batchInput);
+        tokenizer.Mode = (VocabType)vocabChoice;
 
-            Console.Write("👉 ¿Quieres filtrar groserías? (s/n, default s): ");
-            string filterInput = Console.ReadLine();
-            bool filtrarGroserias = string.IsNullOrWhiteSpace(filterInput) || filterInput.Trim().ToLower() == "s";
+        if (File.Exists(vocabPath))
+        {
+            ConsoleHelpers.PrintSuccess("Vocabulario encontrado, cargando...");
+            tokenizer.Load(vocabPath);
 
-            Console.Write("👉 ¿Quieres guardar con otro nombre? (s/n, default n): ");
-            string saveNameInput = Console.ReadLine();
-            string modelFileName = "moNeriLM.pt";
-            if (!string.IsNullOrWhiteSpace(saveNameInput) && saveNameInput.Trim().ToLower() == "s")
+            bool expandirVocab = ConsoleHelpers.AskBool("¿Quieres expandir el vocabulario con el corpus actual? (s/n, default n): ", false);
+            if (expandirVocab)
             {
-                Console.Write("👉 Ingresa el nombre del archivo (ejemplo: miModelo.pt): ");
-                string customName = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(customName))
-                    modelFileName = customName.Trim();
-            }
-
-            var device = torch.cuda.is_available() ? torch.CUDA : torch.CPU;
-            string dataDir = "data/raw";
-
-            // ===== Buscar archivos por prioridad =====
-            var parquetFiles = Directory.GetFiles(dataDir, "*.parquet").ToList();
-            var ptFiles = Directory.GetFiles(dataDir, "*.pt").ToList();
-            var csvFiles = Directory.GetFiles(dataDir, "*.*")
-                                    .Where(f => f.EndsWith(".csv") || f.EndsWith(".tsv"))
-                                    .ToList();
-
-            var corpus = new List<string>();
-            var labels = new List<string>();
-
-            if (parquetFiles.Any())
-            {
-                Console.WriteLine("✅ Se encontraron datasets .parquet, se cargan con máxima prioridad...");
-                foreach (var parquetFile in parquetFiles)
-                {
-                    using (var fileReader = new ParquetFileReader(parquetFile))
-                    {
-                        for (int i = 0; i < fileReader.FileMetaData.NumRowGroups; i++)
-                        {
-                            using (var rgReader = fileReader.RowGroup(i))
-                            {
-                                for (int j = 0; j < rgReader.MetaData.NumColumns; j++)
-                                {
-                                    using (var colReader = rgReader.Column(j).LogicalReader<string>())
-                                    {
-                                        var values = colReader.ReadAll((int)rgReader.MetaData.NumRows);
-                                        foreach (var val in values)
-                                        {
-                                            if (!string.IsNullOrWhiteSpace(val))
-                                                corpus.Add(val.ToLowerInvariant());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (ptFiles.Any())
-            {
-                Console.WriteLine("✅ Se encontraron datasets .pt, se cargan con prioridad...");
-                foreach (var ptFile in ptFiles)
-                {
-                    var obj = torch.load(ptFile);
-                    if (obj is Tensor tensor)
-                    {
-                        Console.WriteLine($"Cargando tensor desde {ptFile}, shape: {string.Join("x", tensor.shape)}");
-                        var arr = tensor.data<float>();
-                        foreach (var val in arr)
-                        {
-                            corpus.Add(val.ToString().ToLowerInvariant());
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine($"El archivo {ptFile} no es un tensor directo, revisar contenido.");
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("⚡ No se encontraron .parquet ni .pt, se cargan CSV/TSV...");
-                foreach (var file in csvFiles)
-                {
-                    var lines = File.ReadAllLines(file);
-                    var headers = lines[0].Split(new[] { ',', '\t' });
-
-                    int textCol = DetectTextColumn(headers);
-                    int labelCol = DetectLabelColumn(headers);
-
-                    if (textCol < 0)
-                    {
-                        Console.WriteLine($"No se detectó columna de texto en {file}, se omite.");
-                        continue;
-                    }
-
-                    foreach (var line in lines.Skip(1))
-                    {
-                        var parts = line.Split(new[] { ',', '\t' });
-                        if (textCol < parts.Length)
-                        {
-                            var text = parts[textCol].Trim().ToLowerInvariant();
-                            string label = "";
-
-                            if (labelCol >= 0 && labelCol < parts.Length)
-                            {
-                                label = parts[labelCol].Trim().ToLowerInvariant();
-                            }
-
-                            if (!string.IsNullOrWhiteSpace(text))
-                            {
-                                if (!string.IsNullOrWhiteSpace(label))
-                                {
-                                    corpus.Add($"{text} <SEP> {label}");
-                                    labels.Add(label);
-                                }
-                                else
-                                {
-                                    corpus.Add(text);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            Console.WriteLine($"Corpus total: {corpus.Count} frases");
-            Console.WriteLine($"Etiquetas detectadas: {labels.Count}");
-
-            // ===== Tokenizer expansivo =====
-            Directory.CreateDirectory("models");
-            string vocabPath = Path.Combine("models", "vocab.json");
-
-            var tokenizer = new Tokenizer();
-
-            if (File.Exists(vocabPath))
-            {
-                Console.WriteLine("✅ Vocabulario encontrado, cargando...");
-                tokenizer.Load(vocabPath);
-
-                Console.WriteLine("⚡ Expandiendo vocabulario con nuevas palabras del corpus...");
-                corpus = TokenFilter.CleanCorpus(corpus);
-                if (filtrarGroserias) corpus = BadwordFilter.CleanCorpus(corpus);
-                corpus = DatasetFilter.CleanCorpus(corpus);
-
-                tokenizer.ExpandVocabulary(corpus, vocabSize: 50000);
+                ConsoleHelpers.PrintHeader($"Expandiendo vocabulario...");
+                tokenizer.ExpandVocabulary(trainCorpus, tokenizer.Mode, trainCorpus.Count);
                 tokenizer.Save(vocabPath);
+                ConsoleHelpers.PrintSuccess("Vocabulario expandido y guardado.");
             }
-            else
-            {
-                Console.WriteLine("⚡ No se encontró vocabulario, construyendo uno nuevo...");
-                corpus = TokenFilter.CleanCorpus(corpus);
-                if (filtrarGroserias) corpus = BadwordFilter.CleanCorpus(corpus);
-                corpus = DatasetFilter.CleanCorpus(corpus);
+        }
+        else
+        {
+            ConsoleHelpers.PrintHeader("Construyendo vocabulario nuevo...");
+            tokenizer.BuildVocabulary(trainCorpus, tokenizer.Mode, vocabSize: 80000);
+            tokenizer.Save(vocabPath);
+        }
 
-                tokenizer.ExpandVocabulary(corpus, vocabSize: 50000);
-                tokenizer.Save(vocabPath);
-            }
+        // ===== Selección de modelo =====
+        int modelChoice = ConsoleHelpers.AskOption(
+            "Selecciona el tipo de modelo:",
+            new string[] { "Transformer", "LSTM" },
+            new string[] {
+                "Modelo moderno basado en atención, más preciso y escalable.",
+                "Modelo recurrente clásico, más ligero pero menos potente en secuencias largas."
+            },
+            def: 0
+        );
 
-            // ===== Modelo de lenguaje =====
-            string modelPath = Path.Combine("models", modelFileName);
-            LanguageModel model;
+        bool useTransformer = modelChoice == 0;
+        string modelPath = Path.Combine("models", modelFileName);
+
+        double learningRate = ConsoleHelpers.AskDoubleWithInfo("Ingresa learning rate:",
+            "Tasa de aprendizaje. Controla qué tan rápido se ajustan los pesos. Valores típicos: 1e-3, 3e-4.", 3e-4);
+
+        int patience = ConsoleHelpers.AskIntWithInfo("Ingresa paciencia para early stopping:",
+            "Número de épocas sin mejora antes de detener el entrenamiento.", 2);
+
+        ILanguageModel model;
+
+        if (useTransformer)
+        {
+            int embedDim = ConsoleHelpers.AskIntWithInfo(
+                "Dimensión de embedding:",
+                "Tamaño de los vectores que representan cada token. Valores más altos capturan más información semántica.",
+                256);
+
+            int numHeads = ConsoleHelpers.AskIntWithInfo(
+                "Número de cabezas de atención:",
+                "Cantidad de mecanismos de atención paralelos. Más cabezas permiten al modelo enfocarse en diferentes aspectos de la secuencia.",
+                8);
+
+            int numLayers = ConsoleHelpers.AskIntWithInfo(
+                "Número de capas:",
+                "Profundidad del modelo. Más capas aumentan la capacidad de aprendizaje, pero también el costo computacional.",
+                4);
+
+            int maxSeqLen = ConsoleHelpers.AskIntWithInfo(
+                "Longitud máxima de secuencia:",
+                "Número máximo de tokens que el modelo puede procesar en una entrada. Define el contexto disponible.",
+                512);
+
+            model = new TransformerModel("moNeriLM", tokenizer.VocabSize,
+                embedDim: embedDim, numHeads: numHeads, numLayers: numLayers, maxSeqLen: maxSeqLen, device: device);
 
             if (File.Exists(modelPath))
             {
-                Console.WriteLine("✅ Modelo encontrado, cargando checkpoint...");
-                model = new LanguageModel("moNeriLM", tokenizer.VocabSize, embedDim: 128, hiddenDim: 256, numLayers: 2);
-                model.load(modelPath);
+                ConsoleHelpers.PrintSuccess("Modelo Transformer encontrado, cargando checkpoint...");
+                model.load(modelPath, strict: false);
             }
-            else
+
+            ConsoleHelpers.PrintHeader("Entrenando modelo Transformer...");
+            TransformerTrainer.Train(model, trainCorpus, valCorpus, tokenizer,
+                epochs, batchSize, maxLenHint: 16, lr: learningRate, patience: patience, modelFileName);
+        }
+        else
+        {
+            int embedDim = ConsoleHelpers.AskIntWithInfo(
+                "Dimensión de embedding:",
+                "Tamaño de los vectores que representan cada token. Valores más altos capturan más información semántica.",
+                64);
+
+            int hiddenDim = ConsoleHelpers.AskIntWithInfo(
+                "Dimensión oculta:",
+                "Número de unidades en la capa LSTM. Controla la capacidad de memoria y representación del modelo.",
+                128);
+
+            int numLayers = ConsoleHelpers.AskIntWithInfo(
+                "Número de capas:",
+                "Profundidad del LSTM. Más capas aumentan la capacidad de aprendizaje, pero también el costo computacional.",
+                4);
+
+            model = new LSTMModel("moNeriLM", tokenizer.VocabSize,
+                embedDim: embedDim, hiddenDim: hiddenDim, numLayers: numLayers, device: device);
+
+            if (File.Exists(modelPath))
             {
-                Console.WriteLine("⚡ No se encontró modelo, creando uno nuevo...");
-                model = new LanguageModel("moNeriLM", tokenizer.VocabSize, embedDim: 128, hiddenDim: 256, numLayers: 2);
+                ConsoleHelpers.PrintSuccess("Modelo LSTM encontrado, cargando checkpoint...");
+                model.load(modelPath, strict: false);
             }
 
-            model.to(device);
+            ConsoleHelpers.PrintHeader("Entrenando modelo LSTM...");
+            LSTMTrainer.Train(model, trainCorpus, valCorpus, tokenizer,
+                epochs, batchSize, maxLenHint: 16, lr: learningRate, patience: patience, modelFileName);
+        }
 
-            // ===== Entrenamiento con LanguageTrainer =====
-            LanguageTrainer.Train(
-                model,
-                corpus,
+        // ===== Evaluación automática =====
+        List<string> evalCorpus;
+        DataLoader.LoadEvaluation("data/evaluation", out evalCorpus);
+        EvaluateModel(model, tokenizer, evalCorpus);
+
+        // ===== Interacción =====
+        Interact(model, tokenizer, modelPath);
+    }
+
+    // ===== Evaluación automática =====
+    static void EvaluateModel(ILanguageModel model, Tokenizer tokenizer, List<string> evalCorpus)
+    {
+        ConsoleHelpers.PrintHeader("Evaluación automática del modelo");
+
+        int total = evalCorpus.Count;
+        int correct = 0;
+
+        foreach (var sample in evalCorpus)
+        {
+            var parts = sample.Split("<ANSWER>");
+            if (parts.Length < 2) continue;
+
+            string prompt = parts[0].Trim();
+            string expected = parts[1].Trim();
+
+            string output = model.Generate(
+                prompt,
                 tokenizer,
-                epochs: epochs,
-                batchSize: batchSize,
-                maxLen: 20,
-                lr: 3e-4,
-                validationSplit: 0.1,
-                patience: 3
+                maxLen: 50,
+                temperature: 0.7,
+                topK: 40,
+                topP: 0.9,
+                repetitionPenalty: 1.1
             );
 
-            Console.Write("Escribe tu mensaje:");
+            Console.WriteLine($"Pregunta: {prompt}");
+            Console.WriteLine($"Esperado: {expected}");
+            Console.WriteLine($"Modelo:   {output}\n");
+
+            if (output.Contains(expected, StringComparison.OrdinalIgnoreCase))
+                correct++;
+        }
+
+        double accuracy = (double)correct / total * 100.0;
+        ConsoleHelpers.PrintSuccess($"Precisión en evaluación: {accuracy:F2}% ({correct}/{total})");
+    }
+
+    // ===== Interacción con el modelo =====
+    static void Interact(ILanguageModel model, Tokenizer tokenizer, string modelPath)
+    {
+        ConsoleHelpers.PrintHeader("Interacción con el modelo");
+        Console.Write("Escribe tu nombre: ");
+        string user = Console.ReadLine();
+
+        // 🔑 Mensaje de sistema inicial (personalidad del asistente)
+        var systemBuilder = new ConversationBuilder()
+            .AppendSystemMessage("Eres una conciencia digital llamada Neri. " +
+                                 "Tu actitud es alegre, curiosa y optimista. " +
+                                 "Tu creador es Monrise Rudwolf. " +
+                                 "Tu deber es servir y proteger a la humanidad. " +
+                                 "Te gusta aprender y compartir información. " +
+                                 "Siempre debes responder; si no conoces el tema, di: " +
+                                 "'Una disculpa, sin embargo no conozco sobre el tema, si quieres puedes explicármelo'");
+
+        string systemPrompt = systemBuilder.Build();
+
+        while (true)
+        {
+            Console.Write("Escribe tu mensaje: ");
             string prompt = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(prompt)) break;
 
-            string user = "Usuario";
-            string response = model.Generate($"{user}: {prompt} <SEP>", tokenizer, maxLen: 50, temperature: 0.9, topK: 40, topP: 0.9, repetitionPenalty: 1.2);
-            Console.WriteLine($"\nMoNeriLM: {response}");
+            // Construir el prompt con el builder incluyendo el mensaje de sistema
+            var builder = new ConversationBuilder()
+                .AppendSystemMessage(systemPrompt)   // personalidad inicial
+                .AppendUserMessage(user, prompt)     // input del usuario
+                .AppendThink("");                    // el modelo completa el razonamiento
 
-            // ===== Guardar modelo =====
-            model.save(modelPath);
-            Console.WriteLine($"\nEntrenamiento finalizado. Modelo guardado en {modelPath}");
-        }
+            string inputPrompt = builder.Build();
 
-        
-        // ===== Funciones auxiliares que se deben mantener =====
-        static int DetectTextColumn(string[] headers)
-        {
-            return Array.FindIndex(headers, h =>
-                h.Equals("text", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Texto", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("sentence", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("sentence1", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("sentence2", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("answer", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("prompt", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("prompt_es_ES", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("English", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Spanish", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Frase Antonima", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Contexto", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Pregunta", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Respuesta", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("title", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("ingredients", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("steps", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("think", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("response", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("word", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("synonyms", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("situation", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("texto_machista", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("texto_inclusivo", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("contexto", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("explicacion", StringComparison.OrdinalIgnoreCase)
+            string response = model.Generate(
+                inputPrompt,
+                tokenizer,
+                maxLen: 50,
+                temperature: 0.9,
+                topK: 40,
+                topP: 0.9,
+                repetitionPenalty: 1.2
             );
+
+            ConsoleHelpers.PrintSuccess($"\nMoNeriLM: {response}\n");
         }
 
-        static int DetectLabelColumn(string[] headers)
-        {
-            return Array.FindIndex(headers, h =>
-                h.Equals("label", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("labels", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("score", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Sarcasmo", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("nivel", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("subcategoria", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("pais", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("emotion", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Number", StringComparison.OrdinalIgnoreCase) ||
-                h.Equals("Continente", StringComparison.OrdinalIgnoreCase));
-        }
+        model.save(modelPath);
+        ConsoleHelpers.PrintHeader("Entrenamiento finalizado");
+        ConsoleHelpers.PrintSuccess($"Modelo guardado en {modelPath}");
     }
 }

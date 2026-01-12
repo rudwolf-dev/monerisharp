@@ -3,56 +3,8 @@
   "WorkspaceRootPath": "R:\\source\\ia\\MoNeriSharp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\training\\languagetrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\training\\languagetrainer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\modules\\languagemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\modules\\languagemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\monerisharp.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\monerisharp.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\monerisharp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\monerisharp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\properties\\resources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\readme.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\docs\\obsidian\\0-resumen\\00_proyecto.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\docs\\obsidian\\0-resumen\\00_proyecto.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\properties\\publishprofiles\\folderprofile.pubxml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\utils\\datasetfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\utils\\datasetfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\utils\\tokenfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\utils\\tokenfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\utils\\badwordsfiltrer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\utils\\badwordsfiltrer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|r:\\source\\ia\\monerisharp\\monerisharp\\src\\utils\\tokenizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E1C8B110-FBB1-89F7-6943-6F699F0A551C}|MoNeriSharp\\MoNeriSharp.csproj|solutionrelative:monerisharp\\src\\utils\\tokenizador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -62,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,159 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "LanguageTrainer.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\LanguageTrainer.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\training\\LanguageTrainer.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\training\\LanguageTrainer.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\training\\LanguageTrainer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T16:03:24.725Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Resources.resx",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Properties\\Resources.resx",
-              "RelativeDocumentMoniker": "MoNeriSharp\\Properties\\Resources.resx",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Properties\\Resources.resx",
-              "RelativeToolTip": "MoNeriSharp\\Properties\\Resources.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2026-01-08T07:03:39.529Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "00_Proyecto.md",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\docs\\obsidian\\0-Resumen\\00_Proyecto.md",
-              "RelativeDocumentMoniker": "MoNeriSharp\\docs\\obsidian\\0-Resumen\\00_Proyecto.md",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\docs\\obsidian\\0-Resumen\\00_Proyecto.md",
-              "RelativeToolTip": "MoNeriSharp\\docs\\obsidian\\0-Resumen\\00_Proyecto.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2026-01-08T06:59:16.541Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "FolderProfile.pubxml",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Properties\\PublishProfiles\\FolderProfile.pubxml",
-              "RelativeDocumentMoniker": "MoNeriSharp\\Properties\\PublishProfiles\\FolderProfile.pubxml",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Properties\\PublishProfiles\\FolderProfile.pubxml",
-              "RelativeToolTip": "MoNeriSharp\\Properties\\PublishProfiles\\FolderProfile.pubxml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003576|",
-              "WhenOpened": "2026-01-08T06:53:26.912Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "README.md",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\README.md",
-              "RelativeDocumentMoniker": "MoNeriSharp\\README.md",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\README.md",
-              "RelativeToolTip": "MoNeriSharp\\README.md",
-              "ViewState": "AgIAAGYAAAAAAAAAAAAAAGcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2026-01-08T06:53:15.925Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "MoNeriSharp.csproj",
               "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
               "RelativeDocumentMoniker": "MoNeriSharp\\MoNeriSharp.csproj",
               "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
               "RelativeToolTip": "MoNeriSharp\\MoNeriSharp.csproj",
-              "ViewState": "AgIAAAAAAABAtzshwMYlwD8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAnwBgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-01-08T06:53:01.69Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MoNeriSharp",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
-              "RelativeDocumentMoniker": "MoNeriSharp\\MoNeriSharp.csproj",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\MoNeriSharp.csproj",
-              "RelativeToolTip": "MoNeriSharp\\MoNeriSharp.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-01-08T06:45:18.914Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "DatasetFilter.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\DatasetFilter.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\utils\\DatasetFilter.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\DatasetFilter.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\utils\\DatasetFilter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T06:21:26.51Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "BadwordsFiltrer.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\BadwordsFiltrer.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\utils\\BadwordsFiltrer.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\BadwordsFiltrer.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\utils\\BadwordsFiltrer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T05:52:01.327Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TokenFilter.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\TokenFilter.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\utils\\TokenFilter.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\TokenFilter.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\utils\\TokenFilter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T05:41:06.493Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LanguageModel.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\LanguageModel.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\modules\\LanguageModel.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\modules\\LanguageModel.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\modules\\LanguageModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T04:38:46.985Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Tokenizador.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\Tokenizador.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\src\\utils\\Tokenizador.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\src\\utils\\Tokenizador.cs",
-              "RelativeToolTip": "MoNeriSharp\\src\\utils\\Tokenizador.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T04:38:36.411Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Program.cs",
-              "RelativeDocumentMoniker": "MoNeriSharp\\Program.cs",
-              "ToolTip": "R:\\source\\ia\\MoNeriSharp\\MoNeriSharp\\Program.cs",
-              "RelativeToolTip": "MoNeriSharp\\Program.cs",
-              "ViewState": "AgIAABQBAAAAAAAAAAAAABoBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-08T04:15:13.739Z",
+              "WhenOpened": "2026-01-12T22:23:04.652Z",
               "EditorCaption": ""
             }
           ]
